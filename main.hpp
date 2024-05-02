@@ -15,4 +15,5 @@
 #include <list>
 
 using namespace std;
+inline ofstream OUTPUT;
 #endif //DSA232_A1_MAIN_H
