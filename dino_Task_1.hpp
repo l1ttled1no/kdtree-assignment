@@ -24,7 +24,7 @@ struct Node
             if (i == data.size() - 1) OUTPUT << ")";
             else OUTPUT << ",";
         }
-        OUTPUT << "\n";
+        OUTPUT << " ";
     }
 };
 
@@ -146,24 +146,13 @@ public:
     }
     //remove helper
     
-
-    Node *findMin(Node *root, int axis, int depth){
-        if (root == nullptr) return nullptr;
-        if (depth % k == axis){
-            if (root->left == nullptr) return root;
-            return findMin(root->left, axis, depth + 1);
+    void copyData(vector<int> &a, const vector<int> &b)
+    {
+        for (int i = 0; i < a.size(); i++){
+            a[i] = b[i];
         }
-        Node *left = findMin(root->left, axis, depth + 1);
-        Node *right = findMin(root->right, axis, depth + 1);
-        Node *minNode = root;
-        if (left != nullptr && left->data[axis] < minNode->data[axis]){
-            minNode = left;
-        }
-        if (right != nullptr && right->data[axis] < minNode->data[axis]){
-            minNode = right;
-        }
-        return minNode;
     }
+
     bool isEqual(const vector<int> &a, const vector<int> &b)
     {
         for (int i = 0; i < a.size(); i++){
@@ -171,29 +160,30 @@ public:
         }
         return true;
     }
-    void copyData(vector<int> &a, const vector<int> &b)
-    {
-        for (int i = 0; i < a.size(); i++){
-            a[i] = b[i];
-        }
-    }
+
     //recursive remove
     Node *recRemove(Node *root, const vector<int> &point, int depth){
         if (root == nullptr) return nullptr;
         int axis = depth % k;
         if (isEqual(root->data, point)){
-            if (root->right != nullptr){
-                Node *minNode = findMin(root->right, axis, depth + 1);
-                copyData(root->data, minNode->data);
-                root->right = recRemove(root->right, minNode->data, depth + 1);
-            } else if (root->left != nullptr){
-                Node *minNode = findMin(root->left, axis, depth + 1);
-                root->left = recRemove(root->left, minNode->data, depth + 1);
-            } else {
+            if (root->right == nullptr){
+                Node *temp = root->left;
                 delete root;
                 count--;
-                return nullptr;
+                return temp;
             }
+            if (root->left == nullptr){
+                Node *temp = root->right;
+                delete root;
+                count--;
+                return temp;
+            }
+            Node *temp = root->right;
+            while (temp->left != nullptr){
+                temp = temp->left;
+            }
+            copyData(root->data, temp->data);
+            root->right = recRemove(root->right, temp->data, depth + 1);
         } else if (point[axis] < root->data[axis]){
             root->left = recRemove(root->left, point, depth + 1);
         } else {
