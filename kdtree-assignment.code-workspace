@@ -1,0 +1,16 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"files.associations": {
+			"*.rmd": "markdown",
+			"xmemory": "cpp",
+			"cstring": "cpp",
+			"ostream": "cpp",
+			"vector": "cpp"
+		}
+	}
+}
