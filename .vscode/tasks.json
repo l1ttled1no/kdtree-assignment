@@ -6,8 +6,11 @@
             "command": "C:\\msys64\\ucrt64\\bin\\g++.exe",
             "args": [
                 "-fdiagnostics-color=always",
+                "-std=c++11",
                 "-g",
-                "${file}",
+                "${workspaceFolder}\\${fileBasename}",
+                "${workspaceFolder}\\kDTree.cpp",
+                "${workspaceFolder}\\Dataset.o",
                 "-o",
                 "${fileDirname}\\${fileBasenameNoExtension}.exe"
             ],

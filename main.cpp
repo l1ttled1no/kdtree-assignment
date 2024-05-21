@@ -1,4 +1,4 @@
-#include "dino_Task_1.hpp"
+#include "kDTree.hpp"
 
 void tc1()
 {
@@ -83,16 +83,33 @@ void tc5()
     Dataset feature = dataset.extract(0, -1, 1, -1);
     Dataset label = dataset.extract(0, -1, 0, 0);
 
-    train_test_split(feature, label, 0.2, X_train, X_test, y_train, y_test);
+    train_test_split(feature, label, 1, X_train, X_test, y_train, y_test);
     knn.fit(X_train, y_train);
     Dataset y_pred = knn.predict(X_test);
     double accuracy = knn.score(y_test, y_pred);
     std::cout << "Accuracy: " << accuracy << endl;
 }
 
+void tc6(){
+        kDTree tree(2);
+    tree.insert({5, 6});
+    tree.insert({2, 2});
+    tree.insert({7, 3});
+    tree.insert({2, 8});
+    tree.insert({3, 5});
+    tree.insert({8, 2});
+    tree.insert({8, 7});
+    tree.insert({9, 2});
+    tree.insert({9, 5});
+    kDTreeNode *best = nullptr;
+    tree.nearestNeighbour({9, 3}, best);
+
+    if (best != nullptr) cout << "Nearest neighbour of (9, 3) is " << *best << endl;
+}
+
 int main(int argc, const char *argv[])
 {
-    tc1();
+    tc5();
 
     return 0;
 }
